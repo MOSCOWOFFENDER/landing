@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 
-<html class="light scroll-smooth" lang="en">
+<html class="light scroll-smooth" lang="ru"
+    style="--cinematic-opacity: 1; --cinematic-scale: 1; --cinematic-blur: 0px; --content-emerge-opacity: 0; --content-emerge-scale: 0.9; --content-emerge-blur: 20px; --nav-opacity: 0; --bg-interpolate-color: hsl(30, 0%, 100%);">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Bucheon Hub - Transform Student Engagement</title>
+    <title>Bucheon Hub - Трансформируйте вовлеченность студентов</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;display=swap"
@@ -108,9 +109,15 @@
     <style>
         :root {
             --bg-interpolate-color: #ffffff;
+            --cinematic-opacity: 1;
+            --cinematic-scale: 1;
+            --cinematic-blur: 0px;
+            --content-emerge-scale: 0.9;
+            --content-emerge-opacity: 0;
+            --content-emerge-blur: 20px;
+            --nav-opacity: 0;
         }
 
-        /* Premium Grain Texture Overlay */
         .grain-overlay {
             position: fixed;
             top: 0;
@@ -118,7 +125,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 50;
+            z-index: 100;
             opacity: 0.05;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
@@ -135,6 +142,8 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.4);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .bento-card:hover {
@@ -144,13 +153,38 @@
             transform: translateY(-2px);
         }
 
-        .primary-gradient-text {
-            background: linear-gradient(135deg, #a04100 0%, #ff6b00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Cinematic Scrolling Effects */
+        #cinematic-viewport {
+            height: 200vh;
+            position: relative;
         }
 
-        /* Cinematic Scene Transitions */
+        #cinematic-hook {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 40;
+            opacity: var(--cinematic-opacity);
+            transform: scale(var(--cinematic-scale));
+            filter: blur(var(--cinematic-blur));
+            pointer-events: none;
+            transition: opacity 0.1s linear, transform 0.1s linear, filter 0.1s linear;
+        }
+
+        #main-content-wrapper {
+            position: relative;
+            z-index: 50;
+            transform: scale(var(--content-emerge-scale));
+            opacity: var(--content-emerge-opacity);
+            filter: blur(var(--content-emerge-blur));
+            transition: opacity 0.1s linear, transform 0.1s linear, filter 0.1s linear;
+        }
+
         .cinematic-scene {
             will-change: transform, opacity, filter;
             transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
@@ -177,7 +211,6 @@
             filter: blur(20px);
         }
 
-        /* Animated Background Layer */
         .animated-bg-container {
             position: fixed;
             top: 0;
@@ -187,7 +220,7 @@
             z-index: -1;
             overflow: hidden;
             background-color: var(--bg-interpolate-color);
-            transition: background-color 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .blob {
@@ -248,76 +281,13 @@
             z-index: 1;
         }
 
-        /* Keyword Trigger Styling - Enhanced */
-        .kw-trigger {
-            display: inline-block;
-            position: relative;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: center;
-            will-change: transform, text-shadow;
-            cursor: default;
-        }
-
-        .kw-trigger.active {
-            transform: scale(1.1);
-            text-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
-            animation: pulse-soft 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-soft {
-
-            0%,
-            100% {
-                transform: scale(1.1);
-            }
-
-            50% {
-                transform: scale(1.15);
-            }
-        }
-
-        .kw-trigger::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #ff6b00, transparent);
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .kw-trigger.active::after {
-            transform: scaleX(1);
-        }
-
-        /* Shimmer effect for keywords */
-        @keyframes shimmer {
-            0% {
-                background-position: -200% center;
-            }
-
-            100% {
-                background-position: 200% center;
-            }
-        }
-
-        .kw-trigger.active {
-            background: linear-gradient(90deg, currentColor 0%, #ff6b00 50%, currentColor 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            animation: shimmer 4s linear infinite, pulse-soft 2s ease-in-out infinite;
-        }
-
         #scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             height: 4px;
             background: linear-gradient(to right, #a04100, #ff6b00);
-            z-index: 100;
+            z-index: 101;
             width: 0%;
         }
 
@@ -381,7 +351,103 @@
 
         .parallax-element {
             will-change: transform;
-            transition: transform 0.1s linear;
+        }
+
+        @keyframes live-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .live-notification {
+            animation: live-fade-in 0.5s ease-out forwards;
+        }
+
+        .live-dot {
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        /* Campus Evolution Slider Styles */
+        #evolution-scroll-container {
+            height: 400vh;
+            position: relative;
+        }
+
+        #evolution-sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .evolution-asset-wrapper {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            border-radius: 2rem;
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        .evolution-layer {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s linear;
+        }
+
+        .evolution-layer.active {
+            opacity: 1;
+        }
+
+        .evolution-marker {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .evolution-marker.active {
+            transform: scale(1.2);
+            background: #ff6b00;
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+        }
+
+        .live-activity-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .live-activity-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 0.3s ease;
         }
 
         @media (max-width: 1024px) {
@@ -411,75 +477,90 @@
         <div class="blob blob-3 parallax-element" data-speed="0.05"></div>
         <div class="glass-overlay"></div>
     </div>
+    <!-- Floating Live Activity System -->
+    <aside
+        class="fixed right-6 top-1/2 -translate-y-1/2 z-[110] hidden xl:flex flex-col gap-3 w-72 live-activity-hidden"
+        id="live-activity-sidebar">
+        <div
+            class="glass-panel p-4 rounded-2xl flex items-center gap-3 mb-2 pointer-events-auto shadow-lg border-white/50">
+            <span class="w-2 h-2 rounded-full bg-green-500 live-dot"></span>
+            <span class="font-label-sm text-xs uppercase tracking-wider text-on-surface-variant font-bold">Живая
+                Активность</span>
+        </div>
+        <div class="space-y-2" id="notification-container">
+            <!-- Notifications injected via JS -->
+        </div>
+    </aside>
     <header
-        class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-white/20 transition-all duration-300">
+        class="fixed top-0 w-full z-[100] bg-surface/70 backdrop-blur-xl border-b border-white/20 transition-opacity duration-500"
+        style="opacity: var(--nav-opacity);">
         <div class="flex justify-between items-center w-full px-container-padding-desktop py-4 max-w-7xl mx-auto">
             <div class="flex items-center gap-3">
                 <span class="font-headline-md text-headline-md font-bold text-primary">Bucheon Hub</span>
             </div>
             <nav class="hidden md:flex items-center gap-8">
                 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200"
-                    href="#">Curriculum</a>
+                    href="#">Программа</a>
                 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200"
-                    href="#">Ecosystem</a>
+                    href="#">Экосистема</a>
                 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200"
-                    href="#">Faculty</a>
-                <a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-1"
-                    href="#">About</a>
+                    href="#">События</a>
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200"
+                    href="#">О нас</a>
             </nav>
             <div class="hidden md:flex items-center gap-4">
                 <a class="font-label-md text-label-md text-primary hover:bg-surface-variant/50 px-4 py-2 rounded-full transition-colors"
-                    href="#">Login</a>
+                    href="#">Войти</a>
                 <a class="font-label-md text-label-md bg-primary text-on-primary px-6 py-2 rounded-full hover:scale-[1.02] hover:shadow-[0_4px_12px_rgba(255,107,0,0.3)] transition-all"
-                    href="#">Get Started</a>
+                    href="#">Начать</a>
             </div>
             <button class="md:hidden text-primary">
                 <span class="material-symbols-outlined text-3xl">menu</span>
             </button>
         </div>
     </header>
-    <main class="flex-grow relative z-10 pt-0">
-        <!-- Section 1: Hero -->
-        <section
-            class="cinematic-scene relative w-full px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto pt-24 md:pt-32 pb-16 md:pb-32 min-h-[90vh] flex items-center"
-            data-scene-state="active" id="section-hero">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center relative z-10 w-full">
-                <div class="lg:col-span-6 space-y-8 order-2 lg:order-1 text-center lg:text-left">
-                    <h1
-                        class="font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface tracking-tight leading-tight">
-                        Transform Student <br />
-                        <span class="primary-gradient-text kw-trigger" data-keyword="Gamify">Engagement</span>
-                    </h1>
-                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto lg:mx-0">
-                        <span class="kw-trigger" data-keyword="Gamify">Gamify</span> the learning experience. Turn
-                        everyday academic tasks into epic quests and build the future <span class="kw-trigger"
-                            data-keyword="Campus">Campus</span> environment, right from your pocket.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
-                        <button
-                            class="font-label-md text-label-md bg-primary text-on-primary px-8 py-4 rounded-full shadow-[0_4px_14px_rgba(255,107,0,0.39)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
-                            Get Started <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                        </button>
-                        <button
-                            class="font-label-md text-label-md glass-panel px-8 py-4 rounded-full text-on-surface hover:bg-white/80 transition-all flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-sm">play_circle</span> Watch Demo
-                        </button>
+    <main class="flex-grow relative pt-0">
+        <!-- Opening Cinematic Hook -->
+        <div id="cinematic-viewport">
+            <div id="cinematic-hook">
+                <div class="relative z-10 text-center px-6">
+                    <h2
+                        class="font-display-lg text-[40px] md:text-[80px] text-on-surface leading-tight tracking-tighter max-w-4xl mx-auto">
+                        Эволюция <br /><span class="">Обучения</span></h2>
+                    <p
+                        class="mt-6 font-body-lg text-on-surface-variant opacity-70 tracking-widest uppercase text-sm md:text-base">
+                        Ваш прогресс строит ваш мир</p>
+                    <div class="mt-12 flex flex-col items-center gap-4">
+                        <span class="material-symbols-outlined animate-bounce text-primary text-3xl">expand_more</span>
                     </div>
                 </div>
-                <div class="lg:col-span-6 relative order-1 lg:order-2 flex justify-center lg:justify-end mb-12 lg:mb-0">
-                    <div class="relative">
-                        <div
-                            class="absolute -left-4 md:-left-16 top-16 glass-panel rounded-xl p-3 md:p-4 z-30 flex items-center gap-3 animate-bounce shadow-xl">
-                            <div
-                                class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
-                                <span class="material-symbols-outlined text-lg">trending_up</span>
-                            </div>
-                            <div>
-                                <p class="font-label-sm text-[10px] md:text-label-sm text-on-surface-variant">Engagement
-                                    Rate</p>
-                                <p class="font-headline-md text-lg md:text-headline-md text-on-surface">+340%</p>
-                            </div>
+            </div>
+        </div>
+        <!-- Main Content Container -->
+        <div id="main-content-wrapper">
+            <!-- Section 1: Hero -->
+            <section
+                class="cinematic-scene relative w-full px-container-padding-mobile md:px-container-padding-desktop max-w-7xl mx-auto pt-24 md:pt-32 pb-16 md:pb-32 min-h-[90vh] flex items-center"
+                data-scene-state="active" id="section-hero">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center relative z-10 w-full">
+                    <div class="lg:col-span-6 space-y-8 order-2 lg:order-1 text-center lg:text-left">
+                        <h1
+                            class="font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface tracking-tight leading-tight">
+                            Трансформируйте <br />Вовлеченность студентов</h1>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto lg:mx-0">
+                            Геймифицируйте процесс обучения. Превратите повседневные академические задачи в эпические
+                            квесты и стройте будущее Кампуса прямо в вашем кармане.</p>
+                        <div class="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
+                            <button
+                                class="font-label-md text-label-md bg-primary text-on-primary px-8 py-4 rounded-full shadow-[0_4px_14px_rgba(255,107,0,0.39)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2">Начать
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
+                            <button
+                                class="font-label-md text-label-md glass-panel px-8 py-4 rounded-full text-on-surface hover:bg-white/80 transition-all flex items-center justify-center gap-2"><span
+                                    class="material-symbols-outlined text-sm">play_circle</span> Демо</button>
                         </div>
+                    </div>
+                    <div
+                        class="lg:col-span-6 relative order-1 lg:order-2 flex justify-center lg:justify-end mb-12 lg:mb-0">
                         <div class="iphone-mockup relative z-20 shadow-2xl">
                             <div class="iphone-notch"></div>
                             <div class="w-full h-full pt-10 px-2 pb-2">
@@ -511,246 +592,536 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- Section 2: Stats -->
-        <section class="cinematic-scene py-32 relative z-10" data-scene-state="before" id="section-stats">
-            <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="p-8">
-                        <p class="font-display-lg text-display-lg text-primary font-bold mb-2">15,000+</p>
-                        <p class="font-headline-md text-headline-md text-on-surface">Active Students</p>
-                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Driven by <span
-                                class="kw-trigger" data-keyword="Growth">Growth</span> across <span class="kw-trigger"
-                                data-keyword="Campus">Campus</span></p>
-                    </div>
-                    <div class="p-8 border-y md:border-y-0 md:border-x border-outline-variant/30">
-                        <p class="font-display-lg text-display-lg text-primary font-bold mb-2">2.4M</p>
-                        <p class="font-headline-md text-headline-md text-on-surface">XP Earned</p>
-                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Earning <span
-                                class="kw-trigger" data-keyword="Rewards">Rewards</span> daily</p>
-                    </div>
-                    <div class="p-8">
-                        <p class="font-display-lg text-display-lg text-primary font-bold mb-2">450+</p>
-                        <p class="font-headline-md text-headline-md text-on-surface">Campus Upgrades</p>
-                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Visualized via <span
-                                class="kw-trigger" data-keyword="AI">AI</span> twins</p>
+            </section>
+            <!-- Section 3: Campus Evolution View (Storytelling - Scroll Driven) -->
+            <section class="bg-transparent relative z-10" id="section-evolution">
+                <div id="evolution-scroll-container">
+                    <div id="evolution-sticky-wrapper">
+                        <div
+                            class="w-full max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop flex flex-col justify-center h-full">
+                            <div class="text-center mb-8">
+                                <h2
+                                    class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">
+                                    Эволюция Вашего Мира</h2>
+                                <p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">Ваши знания
+                                    превращаются в архитектурные достижения. Наблюдайте, как прогресс меняет окружающую
+                                    среду.</p>
+                            </div>
+                            <div class="relative group w-full">
+                                <div class="evolution-asset-wrapper glass-panel border-white/40 mb-8 w-full">
+                                    <img alt="Stage 1" class="evolution-layer active" data-layer="0"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0ujajIOZZwElHC9d15BhN0bas_8alKSdFokaVBY7aHB7TVrPRzhJrK3DJHpTjGrQxKW7XD-GQfIfA2ovohBK7sjwHOaRCXRHNWqJ-j1VeRKJWS-yWISalHeSt7Ftz17VQz4MiHcosdoqQBYgfSNT4y8XYM23cy0vgrHZNZjDSiw6BHxUiBLCpX_i8EoCbkWeaOiRtIP-XH9G7cu2kXq99Ph_lySlatB5c07FscwUgNvnicchK-hpPm4XdhU" />
+                                    <img alt="Stage 2" class="evolution-layer" data-layer="1"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0uiCT930M8I9f3pV8ZdTWp6gqdjnOLvNyfReJJV2O8-KPdzlG8XEFGU0GlpwmUrXZv3jH0HXJkzoQncbJiQgm_SiBHdDv8nuv-WB2T-c1E9DtDJF3Ka3vWrO5YMMJV9FpbwJJnwFmCFSD2ftlPHzoK4lOTalHrYqKUrY_J0cFzVclKDNlAbMVGBglyt6lR3ihlyfuf8X32p6MXnZB15yJ66bfHqA51lNFOgM8EEHiqjDJdNJpXgawje13yRF" />
+                                    <img alt="Stage 3" class="evolution-layer" data-layer="2"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0uhEF8xRJFn1oB601M3M0uNv6dJX_Ie-0xkmtvIY8mgIh1m8LwfgYSnBkPVur5Qm8AnAjOafjmSNN7LrysC-jfeujodtJZ5gvozMgM-505ayPNNnoCQTIMd-lxbIaFXZ1g-hLebRS8NtLalQikXI3lRv3XqNxOdufjFkw5FNXvUnH5djp2G0EDgZ3CCoLCW7dbpDReTzJ09IH8tvreKhK7-dTcGcIxO0q6LAZ79rHpRxSsteknsrxfPACs0" />
+                                    <img alt="Stage 4" class="evolution-layer" data-layer="3"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0uhRLCutaWjWlthmVZu91ro_EfwjKrfNLEgjHbNkqiJmH5aKQBn2qEoSJ7pkxWG4s4ZQffdbeYC3526P_Bd6fB5a8l_n5LtkwLGr8-DnbBXWtF5TZU_V-eR4vrl_JiYJRrId0c8NtwcEf78nMlU_7gIa88SDKMtpBFGYlR1LBMcWJn6gyhWIVoCvfM1C8hPAJE0tspA8B6JHgRoCGLr-ddLIQ5AJ7T5WGWchekdkVYGApGr9jZQXiDWIMt_a" />
+                                    <img alt="Stage 5" class="evolution-layer" data-layer="4"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0ugXw8bPXVzz7S3KLvGkoZqNcXUC6kriRcUpL_xw4IFURYWGK5jy4TnubHtYGhpbB0SdqWXRCfI5wzfHM3ozw1wUalNVujgRIcrGlQHiwsXdidZOc9Ed3GbVhad5cpmMUHyPY0UHQsDsd0SV2COvtpCaxwrBgKWA0w6PQKVFqsbD0jgxM2S5tWU8aowZvzfJLLkrr2Qq0iALhYh_PKVb7L8gv1Qme5QeUkbue3y8Y6nw9TB2cu7IVSiwEORg" />
+                                </div>
+                                <div class="flex justify-between items-center max-w-4xl mx-auto relative px-8">
+                                    <div
+                                        class="absolute h-1 bg-outline-variant/30 w-[calc(100%-4rem)] left-8 top-1/2 -translate-y-1/2 z-0">
+                                    </div>
+                                    <div class="absolute h-1 bg-primary w-0 left-8 top-1/2 -translate-y-1/2 z-0 transition-all duration-300"
+                                        id="evolution-progress-bar"></div>
+                                    <div class="evolution-marker active w-10 h-10 md:w-12 md:h-12 rounded-full glass-panel z-10 flex items-center justify-center font-bold"
+                                        data-stage="1">1</div>
+                                    <div class="evolution-marker w-10 h-10 md:w-12 md:h-12 rounded-full glass-panel z-10 flex items-center justify-center font-bold"
+                                        data-stage="2">2</div>
+                                    <div class="evolution-marker w-10 h-10 md:w-12 md:h-12 rounded-full glass-panel z-10 flex items-center justify-center font-bold"
+                                        data-stage="3">3</div>
+                                    <div class="evolution-marker w-10 h-10 md:w-12 md:h-12 rounded-full glass-panel z-10 flex items-center justify-center font-bold"
+                                        data-stage="4">4</div>
+                                    <div class="evolution-marker w-10 h-10 md:w-12 md:h-12 rounded-full glass-panel z-10 flex items-center justify-center font-bold"
+                                        data-stage="5">5</div>
+                                </div>
+                                <div class="mt-8 text-center max-w-xl mx-auto h-24">
+                                    <h4 class="font-headline-md text-on-surface transition-opacity duration-300"
+                                        id="stage-title">Этап 1: Основание</h4>
+                                    <p class="font-body-md text-on-surface-variant mt-2 transition-opacity duration-300"
+                                        id="stage-desc">Начало вашего пути. Закладка первых фундаментов академического
+                                        будущего.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- Section 3: Process -->
-        <section class="cinematic-scene py-32 bg-transparent relative z-10" data-scene-state="before"
-            id="section-process">
-            <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
-                <div class="text-center mb-24">
-                    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">The
-                        Learning Loop</h2>
-                    <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">A progression from
-                        duty to <span class="kw-trigger" data-keyword="Rewards">Rewards</span>.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div class="bento-card p-8 rounded-2xl text-center">
-                        <div
-                            class="w-16 h-16 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center mx-auto mb-6 text-primary">
-                            <span class="material-symbols-outlined text-3xl">assignment</span>
-                        </div>
-                        <h3 class="font-headline-md text-label-md md:text-headline-md text-on-surface mb-3">Assign</h3>
-                    </div>
-                    <div class="bento-card p-8 rounded-2xl text-center">
-                        <div
-                            class="w-16 h-16 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center mx-auto mb-6 text-primary">
-                            <span class="material-symbols-outlined text-3xl">check_circle</span>
-                        </div>
-                        <h3 class="font-headline-md text-label-md md:text-headline-md text-on-surface mb-3">Complete
-                        </h3>
-                    </div>
-                    <div class="bento-card p-8 rounded-2xl text-center relative border-primary/30">
-                        <div
-                            class="w-16 h-16 rounded-full bg-primary-container shadow-md flex items-center justify-center mx-auto mb-6 text-on-primary">
-                            <span class="material-symbols-outlined text-3xl">bolt</span>
-                        </div>
-                        <h3 class="font-headline-md text-label-md md:text-headline-md text-on-surface mb-3">Gain XP</h3>
-                    </div>
-                    <div class="bento-card p-8 rounded-2xl text-center">
-                        <div
-                            class="w-16 h-16 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center mx-auto mb-6 text-primary">
-                            <span class="material-symbols-outlined text-3xl">account_balance</span>
-                        </div>
-                        <h3 class="font-headline-md text-label-md md:text-headline-md text-on-surface mb-3">Upgrade</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Section 4: Competitive -->
-        <section class="cinematic-scene py-32 relative z-10 border-y border-white/10" data-scene-state="before"
-            id="section-competitive">
-            <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    <div class="order-2 lg:order-1 flex justify-center">
-                        <div
-                            class="glass-panel p-4 rounded-3xl max-w-sm w-full transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500 overflow-hidden">
-                            <img alt="Engagement Map" class="w-full h-auto rounded-2xl shadow-lg"
-                                src="https://lh3.googleusercontent.com/aida/ADBb0ug75tvrH6Y_FIGLFpQTqy31F-J7MGMe6YNBAQxj6El_jargiG6Ujan5zACDgje0gaCXZp89Iw3g4DjkXal47B64Eex6EX0Qk0Nzn07PFLqs0iXCfiHsYsGYS0oGVgNgaI2r6kAymgbQGhCvNyeWdnejadsQkwHyFFty2yh82sPDUQTPmHwTxH89vOYltDt4am4TIpQY8yprWHCTrhfeYBUSqNag0YcZzHxw5_RbnRwSGfTeh-svZY_SGg4" />
-                        </div>
-                    </div>
-                    <div class="order-1 lg:order-2 space-y-6">
+            </section>
+            <!-- Section 2: Investor-Grade Proof (Bento Grid) -->
+            <section class="cinematic-scene py-32 relative z-10" data-scene-state="before" id="section-stats">
+                <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
+                    <div class="mb-16 text-center">
                         <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">
-                            Competitive <span class="primary-gradient-text kw-trigger"
-                                data-keyword="Ranking">Excellence</span></h2>
-                        <p class="font-body-lg text-body-lg text-on-surface-variant">
-                            Our global <span class="kw-trigger" data-keyword="Ranking">Ranking</span> system drives
-                            engagement through healthy rivalry.
-                        </p>
-                        <ul class="space-y-4 pt-4">
-                            <li class="flex items-center gap-3">
-                                <span class="material-symbols-outlined text-primary">emoji_events</span>
-                                <span class="font-body-md text-on-surface">Weekly <span class="kw-trigger"
-                                        data-keyword="Ranking">Ranking</span> Leaderboards</span>
-                            </li>
-                        </ul>
+                            Доказанная Эффективность</h2>
+                        <p class="font-body-md text-on-surface-variant">Результаты, подтвержденные данными и
+                            академическими успехами.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <!-- KPI Card 1 -->
+                        <div class="bento-card p-8 rounded-3xl flex flex-col justify-between h-64 border-white/60">
+                            <span class="material-symbols-outlined text-primary text-3xl">insights</span>
+                            <div>
+                                <p class="font-display-lg text-4xl lg:text-5xl mb-1 counter" data-target="340">+0%</p>
+                                <p class="font-label-md text-on-surface-variant uppercase tracking-wider">Вовлеченность
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Heatmap Card (Double Width) -->
+                        <div
+                            class="bento-card col-span-1 md:col-span-2 rounded-3xl h-64 border-white/60 overflow-hidden group">
+                            <img alt="Heatmap"
+                                class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700"
+                                src="https://lh3.googleusercontent.com/aida/ADBb0ug75tvrH6Y_FIGLFpQTqy31F-J7MGMe6YNBAQxj6El_jargiG6Ujan5zACDgje0gaCXZp89Iw3g4DjkXal47B64Eex6EX0Qk0Nzn07PFLqs0iXCfiHsYsGYS0oGVgNgaI2r6kAymgbQGhCvNyeWdnejadsQkwHyFFty2yh82sPDUQTPmHwTxH89vOYltDt4am4TIpQY8yprWHCTrhfeYBUSqNag0YcZzHxw5_RbnRwSGfTeh-svZY_SGg4" />
+                            <div class="relative z-10 p-8 h-full flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-headline-md text-on-surface">Пиковая Активность</h3>
+                                    <p class="font-body-md text-on-surface-variant">Анализ ежедневного вовлечения в
+                                        реальном времени</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span
+                                        class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-widest">Live
+                                        Data</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- KPI Card 2 -->
+                        <div class="bento-card p-8 rounded-3xl flex flex-col justify-between h-64 border-white/60">
+                            <span class="material-symbols-outlined text-primary text-3xl">school</span>
+                            <div>
+                                <p class="font-display-lg text-4xl lg:text-5xl mb-1 counter" data-target="98">0%</p>
+                                <p class="font-label-md text-on-surface-variant uppercase tracking-wider">Успеваемость
+                                </p>
+                            </div>
+                        </div>
+                        <!-- KPI Card 3 -->
+                        <div
+                            class="bento-card p-8 rounded-3xl flex flex-col justify-between h-64 border-white/60 lg:col-start-1">
+                            <span class="material-symbols-outlined text-primary text-3xl">group</span>
+                            <div>
+                                <p class="font-display-lg text-4xl lg:text-5xl mb-1 counter" data-target="45">+0%</p>
+                                <p class="font-label-md text-on-surface-variant uppercase tracking-wider">Посещаемость
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Large Stat Card -->
+                        <div
+                            class="bento-card col-span-1 md:col-span-2 lg:col-span-3 rounded-3xl h-64 border-white/60 p-8 flex flex-col md:flex-row gap-8 items-center">
+                            <div class="flex-grow">
+                                <h3 class="font-headline-md text-on-surface mb-2">Глобальная Экосистема</h3>
+                                <p class="font-body-md text-on-surface-variant">Более 15,000 активных студентов
+                                    ежедневно улучшают свой кампус через выполнение квестов и академические достижения.
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 w-full md:w-auto shrink-0">
+                                <div class="text-center p-4 bg-white/40 rounded-2xl">
+                                    <p class="font-bold text-2xl text-primary">2.4M</p>
+                                    <p class="text-[10px] uppercase text-on-surface-variant">XP заработано</p>
+                                </div>
+                                <div class="text-center p-4 bg-white/40 rounded-2xl">
+                                    <p class="font-bold text-2xl text-primary">450+</p>
+                                    <p class="text-[10px] uppercase text-on-surface-variant">Квестов</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- Section 5: Team -->
-        <section class="cinematic-scene py-32 bg-transparent relative z-10" data-scene-state="before" id="section-team">
-            <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
-                <div class="text-center mb-16">
-                    <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">Meet
-                        the Innovators</h2>
-                    <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">The team driving
-                        <span class="kw-trigger" data-keyword="Growth">Growth</span>.</p>
+            </section>
+            <!-- Section 4: Seasons & Events -->
+            <section class="cinematic-scene py-32 bg-transparent relative z-10" data-scene-state="before"
+                id="section-seasons">
+                <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
+                    <div class="text-center mb-16">
+                        <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">
+                            Сезоны и События</h2>
+                        <p class="font-body-md text-on-surface-variant">Каждый месяц — новые вызовы, награды и
+                            уникальные возможности.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Season Card -->
+                        <div class="glass-panel p-8 rounded-3xl border-white/60 flex flex-col h-full">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-primary/10 rounded-2xl text-primary">
+                                    <span class="material-symbols-outlined text-3xl">wb_sunny</span>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">Текущий
+                                    сезон</span>
+                            </div>
+                            <h3 class="font-headline-md text-on-surface mb-2">Весенний семестр</h3>
+                            <p class="font-body-md text-on-surface-variant mb-6 flex-grow">Соберите коллекцию редких
+                                артефактов этого сезона и откройте доступ к новой библиотеке.</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs font-bold uppercase tracking-tighter">
+                                    <span>Прогресс сезона</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary rounded-full transition-all duration-1000"
+                                        style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Event Card -->
+                        <div
+                            class="glass-panel p-8 rounded-3xl border-white/60 flex flex-col h-full relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-4">
+                                <span
+                                    class="animate-pulse flex items-center gap-1 text-[10px] font-bold uppercase text-error">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-error"></span> Скоро
+                                </span>
+                            </div>
+                            <div class="p-3 bg-secondary/10 rounded-2xl text-secondary w-fit mb-6">
+                                <span class="material-symbols-outlined text-3xl">swords</span>
+                            </div>
+                            <h3 class="font-headline-md text-on-surface mb-2">Битва кампусов</h3>
+                            <p class="font-body-md text-on-surface-variant mb-6 flex-grow">Межвузовское соревнование за
+                                звание самого вовлеченного сообщества.</p>
+                            <div class="bg-surface-container-low p-4 rounded-2xl flex justify-around text-center">
+                                <div>
+                                    <p class="font-bold text-lg text-on-surface">02</p>
+                                    <p class="text-[8px] uppercase text-on-surface-variant">Дня</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-lg text-on-surface">14</p>
+                                    <p class="text-[8px] uppercase text-on-surface-variant">Часов</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-lg text-on-surface">35</p>
+                                    <p class="text-[8px] uppercase text-on-surface-variant">Мин</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Boost Card -->
+                        <div class="glass-panel p-8 rounded-3xl border-primary/20 bg-primary/5 flex flex-col h-full">
+                            <div
+                                class="p-3 bg-primary-container text-on-primary-container rounded-2xl w-fit mb-6 shadow-md">
+                                <span class="material-symbols-outlined text-3xl">bolt</span>
+                            </div>
+                            <h3 class="font-headline-md text-on-surface mb-2">XP Boost Weekend</h3>
+                            <p class="font-body-md text-on-surface-variant mb-6 flex-grow">Получайте в 2 раза больше
+                                опыта за все выполненные задания на этих выходных.</p>
+                            <button
+                                class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-md hover:scale-[1.02] transition-transform shadow-lg shadow-primary/20">Участвовать</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="marquee-container">
-                <div class="marquee-track">
-                    <div class="glass-panel p-8 rounded-3xl text-center team-card">
-                        <div
-                            class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
-                            <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
-                        </div>
-                        <h4 class="font-headline-md text-xl text-on-surface">Kim Vladimir</h4>
-                        <p class="font-label-md text-primary uppercase">Lead Researcher</p>
-                    </div>
-                    <div class="glass-panel p-8 rounded-3xl text-center team-card">
-                        <div
-                            class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
-                            <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
-                        </div>
-                        <h4 class="font-headline-md text-xl text-on-surface">Yegay Oleg</h4>
-                        <p class="font-label-md text-primary uppercase">Head of Curriculum</p>
-                    </div>
-                    <div class="glass-panel p-8 rounded-3xl text-center team-card">
-                        <div
-                            class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
-                            <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
-                        </div>
-                        <h4 class="font-headline-md text-xl text-on-surface">Kim Vladimir</h4>
-                        <p class="font-label-md text-primary uppercase">Lead Researcher</p>
-                    </div>
-                    <div class="glass-panel p-8 rounded-3xl text-center team-card">
-                        <div
-                            class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
-                            <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
-                        </div>
-                        <h4 class="font-headline-md text-xl text-on-surface">Yegay Oleg</h4>
-                        <p class="font-label-md text-primary uppercase">Head of Curriculum</p>
+            </section>
+            <!-- Section 5: Team (Marquee) -->
+            <section class="cinematic-scene py-32 bg-transparent relative z-10" data-scene-state="before"
+                id="section-team">
+                <div class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop">
+                    <div class="text-center mb-16">
+                        <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4">
+                            Познакомьтесь с инноваторами</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Команда,
+                            обеспечивающая рост и развитие экосистемы.</p>
                     </div>
                 </div>
-            </div>
-        </section>
-        <footer
-            class="w-full text-white/90 py-16 px-container-padding-mobile md:px-container-padding-desktop border-t border-white/10 relative z-10 bg-[#1a110b]">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex flex-col items-center md:items-start gap-4">
-                    <span class="font-display text-2xl font-bold tracking-tight text-white">Bucheon Hub</span>
-                    <p class="font-body-md text-sm font-medium text-white/90">© 2024 Bucheon University. Built for the
-                        Future.</p>
+                <div class="marquee-container">
+                    <div class="marquee-track">
+                        <div class="glass-panel p-8 rounded-3xl text-center team-card">
+                            <div
+                                class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+                            </div>
+                            <h4 class="font-headline-md text-xl text-on-surface">Kim Vladimir</h4>
+                            <p class="font-label-md text-primary uppercase tracking-wider text-xs">Ведущий исследователь
+                            </p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-3xl text-center team-card">
+                            <div
+                                class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+                            </div>
+                            <h4 class="font-headline-md text-xl text-on-surface">Yegay Oleg</h4>
+                            <p class="font-label-md text-primary uppercase tracking-wider text-xs">Руководитель учебной
+                                программы</p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-3xl text-center team-card">
+                            <div
+                                class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+                            </div>
+                            <h4 class="font-headline-md text-xl text-on-surface">Park Ji-Sung</h4>
+                            <p class="font-label-md text-primary uppercase tracking-wider text-xs">Архитектор систем</p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-3xl text-center team-card">
+                            <div
+                                class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+                            </div>
+                            <h4 class="font-headline-md text-xl text-on-surface">Lee Sang-Hoon</h4>
+                            <p class="font-label-md text-primary uppercase tracking-wider text-xs">UX Дизайнер</p>
+                        </div>
+                        <!-- Duplicate for Marquee Loop -->
+                        <div class="glass-panel p-8 rounded-3xl text-center team-card">
+                            <div
+                                class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+                            </div>
+                            <h4 class="font-headline-md text-xl text-on-surface">Kim Vladimir</h4>
+                            <p class="font-label-md text-primary uppercase tracking-wider text-xs">Ведущий исследователь
+                            </p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-3xl text-center team-card">
+                            <div
+                                class="w-24 h-24 mx-auto rounded-full bg-surface-variant mb-4 flex items-center justify-center border-2 border-primary/20">
+                                <span class="material-symbols-outlined text-4xl text-on-surface-variant">person</span>
+                            </div>
+                            <h4 class="font-headline-md text-xl text-on-surface">Yegay Oleg</h4>
+                            <p class="font-label-md text-primary uppercase tracking-wider text-xs">Руководитель учебной
+                                программы</p>
+                        </div>
+                    </div>
                 </div>
-                <nav class="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4">
-                    <a class="font-label-md text-sm font-medium hover:text-primary transition-colors text-white/90"
-                        href="#">Privacy Policy</a>
-                    <a class="font-label-md text-sm font-medium hover:text-primary transition-colors text-white/90"
-                        href="#">Terms of Service</a>
-                    <a class="font-label-md text-sm font-medium hover:text-primary transition-colors text-white/90"
-                        href="#">University Site</a>
-                </nav>
-            </div>
-            <div
-                class="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-white/20 font-bold">
-                <span>Transforming Engagement</span>
-                <span>Design-Led Innovation</span>
-            </div>
-        </footer>
+            </section>
+            <footer
+                class="w-full text-white/90 py-16 px-container-padding-mobile md:px-container-padding-desktop border-t border-white/10 relative z-10 bg-[#1a110b]">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div class="flex flex-col items-center md:items-start gap-4">
+                        <span class="font-display text-2xl font-bold tracking-tight text-white">Bucheon Hub</span>
+                        <p class="font-body-md text-sm font-medium text-white/90">© 2024 Университет Пучхон. Создано для
+                            будущего.</p>
+                    </div>
+                    <nav class="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4">
+                        <a class="font-label-md text-sm font-medium hover:text-primary transition-colors text-white/90"
+                            href="#">Политика конфиденциальности</a>
+                        <a class="font-label-md text-sm font-medium hover:text-primary transition-colors text-white/90"
+                            href="#">Условия использования</a>
+                        <a class="font-label-md text-sm font-medium hover:text-primary transition-colors text-white/90"
+                            href="#">Сайт университета</a>
+                    </nav>
+                </div>
+                <div
+                    class="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest text-white/20 font-bold">
+                    <span class="">Трансформация вовлеченности</span>
+                    <span class="">Инновации через дизайн</span>
+                </div>
+            </footer>
+        </div>
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const bgContainer = document.getElementById('bg-container');
+            const root = document.documentElement;
             const scenes = document.querySelectorAll('.cinematic-scene');
-            const keywords = document.querySelectorAll('.kw-trigger');
             const parallaxElems = document.querySelectorAll('.parallax-element');
             const progressBar = document.getElementById("scroll-progress");
+            const notificationContainer = document.getElementById('notification-container');
+            const liveActivitySidebar = document.getElementById('live-activity-sidebar');
 
-            // Background State Machine Colors
+            // --- Live Activity System ---
+            const activityPool = [
+                'Студент повысил уровень кампуса +1',
+                'Новое задание выполнено',
+                '+50 XP получено',
+                'Кампус улучшен до уровня 3',
+                'Секретный квест открыт',
+                'Достижение "Исследователь" получено',
+                'Команда завершила проект вовремя'
+            ];
+
+            function createNotification(text) {
+                const el = document.createElement('div');
+                el.className = 'glass-panel p-3 rounded-xl border-white/40 text-xs font-medium text-on-surface shadow-md live-notification';
+                el.innerHTML = `<span class="text-primary mr-2">•</span>${text}`;
+                notificationContainer.prepend(el);
+
+                if (notificationContainer.children.length > 5) {
+                    notificationContainer.lastElementChild.style.opacity = '0';
+                    notificationContainer.lastElementChild.style.transform = 'translateY(10px)';
+                    setTimeout(() => notificationContainer.lastElementChild.remove(), 500);
+                }
+            }
+
+            setInterval(() => {
+                if (Math.random() > 0.4) {
+                    const text = activityPool[Math.floor(Math.random() * activityPool.length)];
+                    createNotification(text);
+                }
+            }, 4000);
+
+            // --- Scroll-Driven Campus Evolution ---
+            const evoContainer = document.getElementById('evolution-scroll-container');
+            const evoLayers = document.querySelectorAll('.evolution-layer');
+            const evoMarkers = document.querySelectorAll('.evolution-marker');
+            const evoTitle = document.getElementById('stage-title');
+            const evoDesc = document.getElementById('stage-desc');
+            const evoProgBar = document.getElementById('evolution-progress-bar');
+
+            const stages = [
+                { title: "Этап 1: Основание", desc: "Начало вашего пути. Закладка первых фундаментов академического будущего." },
+                { title: "Этап 2: Развитие", desc: "Первые современные аудитории и исследовательские зоны начинают расти." },
+                { title: "Этап 3: Технологии", desc: "Интеграция цифровых интерфейсов и инновационных лабораторий в среду." },
+                { title: "Этап 4: Экосистема", desc: "Гармония природы и науки. Энергоэффективные решения и парковые зоны." },
+                { title: "Этап 5: Фронтир", desc: "Вершина эволюции. Футуристический хаб, где знания не знают границ." }
+            ];
+
+            let currentEvolutionStage = -1;
+
+            function updateEvolutionScroll() {
+                if (!evoContainer) return;
+
+                const rect = evoContainer.getBoundingClientRect();
+                const viewHeight = window.innerHeight;
+
+                // Calculate progress through the section (0 to 1)
+                let progress = 0;
+                if (rect.top <= 0) {
+                    const totalScroll = rect.height - viewHeight;
+                    progress = Math.min(Math.max(-rect.top / totalScroll, 0), 1);
+                } else if (rect.top > 0) {
+                    progress = 0;
+                }
+
+                // Determine which stage should be active (0 to 4)
+                const stageIndex = Math.min(Math.floor(progress * 4.99), 4);
+
+                // Update Progress Bar
+                evoProgBar.style.width = `${progress * 100}%`;
+
+                if (stageIndex !== currentEvolutionStage) {
+                    currentEvolutionStage = stageIndex;
+
+                    // Update images (crossfade)
+                    evoLayers.forEach((layer, idx) => {
+                        if (idx === stageIndex) {
+                            layer.classList.add('active');
+                        } else {
+                            layer.classList.remove('active');
+                        }
+                    });
+
+                    // Update markers
+                    evoMarkers.forEach((marker, idx) => {
+                        if (idx <= stageIndex) {
+                            marker.classList.add('active');
+                        } else {
+                            marker.classList.remove('active');
+                        }
+                    });
+
+                    // Update text with fade
+                    evoTitle.style.opacity = 0;
+                    evoDesc.style.opacity = 0;
+
+                    setTimeout(() => {
+                        evoTitle.innerText = stages[stageIndex].title;
+                        evoDesc.innerText = stages[stageIndex].desc;
+                        evoTitle.style.opacity = 1;
+                        evoDesc.style.opacity = 1;
+                    }, 150);
+                }
+            }
+
+            // --- Counter Animation ---
+            function animateCounters() {
+                const counters = document.querySelectorAll('.counter');
+                counters.forEach(counter => {
+                    if (counter.classList.contains('animating')) return;
+                    counter.classList.add('animating');
+                    const target = +counter.getAttribute('data-target');
+                    const updateCount = () => {
+                        const currentStr = counter.innerText.replace(/[+%]/g, '');
+                        const current = parseFloat(currentStr) || 0;
+                        const increment = target / 50;
+                        if (current < target) {
+                            counter.innerText = (counter.innerText.includes('+') ? '+' : '') + Math.ceil(current + increment) + (counter.innerText.includes('%') ? '%' : '');
+                            setTimeout(updateCount, 20);
+                        } else {
+                            counter.innerText = (counter.innerText.includes('+') ? '+' : '') + target + (counter.innerText.includes('%') ? '%' : '');
+                        }
+                    };
+                    updateCount();
+                });
+            }
+
+            // --- Main Scroll Logic ---
             const sectionColors = {
-                'section-hero': '#ffffff',        // White
-                'section-stats': '#fff7f0',       // Soft Orange
-                'section-process': '#ff6b00',     // Vibrant Orange (Primary)
-                'section-competitive': '#fcf9f8', // Back to Soft White
-                'section-team': '#f3f4f6'         // Light Grey
+                'section-hero': '#ffffff',
+                'section-stats': '#fff7f0',
+                'section-evolution': '#ffffff',
+                'section-seasons': '#fcf9f8',
+                'section-team': '#f3f4f6'
             };
 
             const updateOnScroll = () => {
                 const scrollY = window.scrollY;
-                const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+                const viewHeight = window.innerHeight;
+                const scrollTotal = document.documentElement.scrollHeight - viewHeight;
                 const scrollProgress = (scrollY / scrollTotal) * 100;
 
                 progressBar.style.width = scrollProgress + "%";
 
-                // Parallax with RAF-like performance
+                // Opening Cinematic Controller
+                const cinematicProgress = Math.min(scrollY / viewHeight, 1);
+
+                const cOpacity = 1 - (cinematicProgress * 1.5);
+                const cScale = 1 - (cinematicProgress * 0.3);
+                const cBlur = cinematicProgress * 40;
+
+                root.style.setProperty('--cinematic-opacity', Math.max(cOpacity, 0));
+                root.style.setProperty('--cinematic-scale', cScale);
+                root.style.setProperty('--cinematic-blur', `${cBlur}px`);
+
+                const mOpacity = cinematicProgress > 0.3 ? (cinematicProgress - 0.3) / 0.7 : 0;
+                const mScale = 0.9 + (mOpacity * 0.1);
+                const mBlur = 20 - (mOpacity * 20);
+
+                root.style.setProperty('--content-emerge-opacity', mOpacity);
+                root.style.setProperty('--content-emerge-scale', mScale);
+                root.style.setProperty('--content-emerge-blur', `${mBlur}px`);
+                root.style.setProperty('--nav-opacity', mOpacity);
+
+                if (cinematicProgress < 1) {
+                    const hue = 30;
+                    const sat = cinematicProgress * 10;
+                    const light = 100 - (cinematicProgress * 2);
+                    root.style.setProperty('--bg-interpolate-color', `hsl(${hue}, ${sat}%, ${light}%)`);
+                }
+
                 parallaxElems.forEach(el => {
                     const speed = parseFloat(el.dataset.speed || 0.1);
                     el.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
                 });
 
-                // Section Intersection Logic with IntersectionObserver feel using scroll
-                scenes.forEach(scene => {
-                    const rect = scene.getBoundingClientRect();
-                    const viewHeight = window.innerHeight;
+                // Update Evolution Scroll
+                updateEvolutionScroll();
 
-                    // Focal Point Logic (Center-weighted focus)
-                    const entryThreshold = viewHeight * 0.75;
-                    const exitThreshold = viewHeight * 0.25;
+                // Live Activity visibility
+                const heroRect = document.getElementById('section-hero').getBoundingClientRect();
+                if (heroRect.bottom < 0) {
+                    liveActivitySidebar.classList.remove('live-activity-hidden');
+                    liveActivitySidebar.classList.add('live-activity-visible');
+                } else {
+                    liveActivitySidebar.classList.remove('live-activity-visible');
+                    liveActivitySidebar.classList.add('live-activity-hidden');
+                }
 
-                    if (rect.top < entryThreshold && rect.bottom > exitThreshold) {
-                        scene.setAttribute('data-scene-state', 'active');
+                if (cinematicProgress > 0.8) {
+                    scenes.forEach(scene => {
+                        const rect = scene.getBoundingClientRect();
+                        const entryThreshold = viewHeight * 0.75;
+                        const exitThreshold = viewHeight * 0.25;
 
-                        // Update Background Color State Machine
-                        const color = sectionColors[scene.id];
-                        if (color) {
-                            document.documentElement.style.setProperty('--bg-interpolate-color', color);
+                        if (rect.top < entryThreshold && rect.bottom > exitThreshold) {
+                            if (scene.getAttribute('data-scene-state') !== 'active') {
+                                scene.setAttribute('data-scene-state', 'active');
+                                if (scene.id === 'section-stats') animateCounters();
+                            }
+                            const color = sectionColors[scene.id];
+                            if (color) root.style.setProperty('--bg-interpolate-color', color);
+                        } else if (rect.top >= entryThreshold) {
+                            scene.setAttribute('data-scene-state', 'before');
+                        } else {
+                            scene.setAttribute('data-scene-state', 'after');
                         }
-                    } else if (rect.top >= entryThreshold) {
-                        scene.setAttribute('data-scene-state', 'before');
-                    } else {
-                        scene.setAttribute('data-scene-state', 'after');
-                    }
-                });
-
-                // Keyword Trigger Hooks
-                keywords.forEach(kw => {
-                    const rect = kw.getBoundingClientRect();
-                    // More sensitive trigger for keywords
-                    if (rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.15) {
-                        kw.classList.add('active');
-                    } else {
-                        kw.classList.remove('active');
-                    }
-                });
+                    });
+                }
             };
 
-            // Optimized event listener
             let ticking = false;
             window.addEventListener('scroll', () => {
                 if (!ticking) {
@@ -762,7 +1133,7 @@
                 }
             });
 
-            updateOnScroll(); // Initial check
+            updateOnScroll();
         });
     </script>
 </body>
